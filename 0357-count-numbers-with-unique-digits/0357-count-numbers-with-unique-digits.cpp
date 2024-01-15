@@ -1,38 +1,21 @@
 class Solution {
 public:
-    void fun(int k,int n,string &st,vector<string> &ans,vector<bool> &vis)
-    {
-        ans.push_back(st);
-        if(k == n) return;
-        for(int i = 0;i <= 9;i++)
-        {
-            if(vis[i] == 0)
-            {
-                vis[i] = 1;
-                string c = to_string(i);
-                st += (c);
-                fun(k+1,n,st,ans,vis);
-                vis[i] = 0;
-                st.pop_back();
-            }
-        }
-    }
-    int countNumbersWithUniqueDigits(int n) 
+    int fun(int n)
     {
         if(n == 0) return 1;
         if(n == 1) return 10;
-        vector<bool> vis(10,0);
-        string st = "";
-        vector<string> ans;
-        for(int i = 1;i <= 9;i++)
+        int k = n-1,d = 9,ans = 9;
+        while(k)
         {
-            vis[i] = 1;
-            string c = to_string(i);
-            st += c;
-            fun(1,n,st,ans,vis);
-            st.pop_back();
-            vis[i] = 0;
+            ans *= d;
+            d--;
+            k--;
         }
-        return ans.size() + 1;
+        return ans + fun(n-1);
+    }
+    int countNumbersWithUniqueDigits(int n) 
+    {
+        int ans = fun(n);
+        return ans;
     }
 };
